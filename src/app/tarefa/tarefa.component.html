@@ -1,1 +1,6 @@
-<p>tarefa works!</p>
+<p>Lista de Tarefas</p>
+<input type="text" placeholder="Criar tarefa" #inputTarefa />
+<button (click)="adicionar(inputTarefa.value)">Adicionar</button>
+<ul *ngFor="let tarefa of listaTarefas">
+  <li>{{ tarefa.nome }}</li>
+</ul>
