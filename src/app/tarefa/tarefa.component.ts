@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tarefa.component.css']
 })
 export class TarefaComponent implements OnInit {
-
   listaTarefas: any[] = []
 
   constructor() { }
@@ -31,6 +30,10 @@ export class TarefaComponent implements OnInit {
       this.listaTarefas.push({ id: this.listaTarefas.length, nome: nomeTarefa, concluida: false })
     }
 
+  }
+
+  deletar(id: number) {
+    this.listaTarefas = this.listaTarefas.filter(item => (item.id != id))
   }
 
 }
