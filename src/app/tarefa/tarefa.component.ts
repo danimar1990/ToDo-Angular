@@ -6,34 +6,47 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tarefa.component.css']
 })
 export class TarefaComponent implements OnInit {
-  listaTarefas: any[] = []
 
+  TAREFA_KEY = 'tarefa_key'
+  listaTarefas: any[] = []
   constructor() { }
 
   ngOnInit(): void {
-    this.listaTarefas = [
-      { id: 0, nome: 'lavar o carro', concluida: false },
-      { id: 1, nome: 'ir ao mercado', concluida: true },
-      { id: 2, nome: 'lavar roupas', concluida: false },
-      { id: 3, nome: 'carregar o telefone', concluida: true },
-    ]
+    const tarefas = localStorage.getItem(this.TAREFA_KEY)
+    if (tarefas) {
+      this.listaTarefas = JSON.parse(tarefas)
+    }
   }
 
   adicionar(nomeTarefa: string) {
     if (nomeTarefa.trim().length == 0) {
       return;
     }
-
     const tarefaEncontrada = this.listaTarefas.find(item => item.nome.toLowerCase() == nomeTarefa.toLowerCase())
 
     if (!tarefaEncontrada) {
       this.listaTarefas.push({ id: this.listaTarefas.length, nome: nomeTarefa, concluida: false })
+      this.salvarLista()
     }
-
   }
 
   deletar(id: number) {
     this.listaTarefas = this.listaTarefas.filter(item => (item.id != id))
+    this.salvarLista()
+  }
+
+  completar(id: number) {
+    const tarefaEncontrada = this.listaTarefas.find(item => item.id == id)
+
+    if (tarefaEncontrada) {
+      tarefaEncontrada.concluida = !tarefaEncontrada.concluida
+      this.salvarLista()
+    }
+
+  }
+
+  private salvarLista() {
+    localStorage.setItem(this.TAREFA_KEY, JSON.stringify(this.listaTarefas))
   }
 
 }
